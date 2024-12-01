@@ -1,0 +1,43 @@
+<section class="animate-fade-in animate-delay-500 mt-32 mx-auto flex flex-col justify-center items-center text-center text-primary w-full">
+    <h2 class="uppercase text-5xl font-semibold">
+        Sabado 21 de diciembre
+    </h2>
+    <h3 class="uppercase text-2xl font-medium flex flex-col max-w-sm mt-6">
+        <span>Lugar y hora de la misa</span>
+        <span>Parroquia de Nuestra Señora de Guadalupe</span>
+        <span>
+            <script is:inline>
+                const END_DATE = 1734828300000
+                const d = new Date(END_DATE)
+                const date = d.toLocaleTimeString("es",{
+                    hour: "2-digit",
+                    minute: "2-digit",
+                })
+                // get current timezone
+                const tzOffset = d.getTimezoneOffset() /60
+                const diff = tzOffset * -1
+                const gmt = diff > 0 ? `GMT-${diff}` : `GMT-${Math.abs(diff)}`
+
+                const TZ_DICTIONARY = {
+                    "GMT-6": "GMT-5",
+                }
+                const tz = TZ_DICTIONARY[gmt] ?? gmt
+                const selfScript = document.currentScript
+                selfScript.parentNode.innerHTML = `${date}H ${tz}`
+            </script>
+        </span>
+        <span>Av.Unversidad s/n - Fracc Magallanes</span>
+    </h3>
+        
+        
+    <a class={`
+            border-primary border-2 font-medium uppercase text-lg
+            px-4 py-1 mt-8
+            hover:bg-emerald-500 hover:scale-125
+            transition inline-block
+        `} 
+        href="#"
+        target="_black"
+        rel="noopener noreferrer">Confirma tu asistencia
+    </a>
+</section>
