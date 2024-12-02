@@ -1,12 +1,16 @@
 <section class="flex font-medium text-primary gap-y-10 my-32 flex-col">
     <div class="flex justify-center items-center">
-        <a target="_blank" rel="noopener" href="https://www.instagram.com/" class="hover:scale-125 hover:opacity-70 transition inline-block">
-            <img src="./Instagram-logo-medium.svg" alt="Logo de Instagram">
+        <a target="_blank" rel="noopener" href="https://www.instagram.com/tjxlwtx/" class="hover:scale-125 hover:opacity-70 transition inline-block">
+            <svg class="instagram hover:from-pink-500 hover:to-orange-500" width="90" height="90" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M65.625 24.375H65.6625M26.25 7.5H63.75C74.1053 7.5 82.5 15.8947 82.5 26.25V63.75C82.5 74.1053 74.1053 82.5 63.75 82.5H26.25C15.8947 82.5 7.5 74.1053 7.5 63.75V26.25C7.5 15.8947 15.8947 7.5 26.25 7.5ZM60 42.6375C60.4628 45.7584 59.9297 48.9458 58.4766 51.7463C57.0235 54.5468 54.7243 56.8178 51.9061 58.2363C49.0879 59.6548 45.8942 60.1485 42.7792 59.6472C39.6642 59.146 36.7866 57.6753 34.5556 55.4444C32.3247 53.2134 30.854 50.3358 30.3528 47.2208C29.8515 44.1058 30.3452 40.9121 31.7637 38.0939C33.1822 35.2757 35.4532 32.9765 38.2537 31.5234C41.0542 30.0703 44.2416 29.5372 47.3625 30C50.546 30.4721 53.4932 31.9555 55.7689 34.2311C58.0445 36.5068 59.5279 39.454 60 42.6375Z" 
+                stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>                
             <span class="flex justify-center text-center">@Tania</span>
         </a>
     </div>
     <div class="grid uppercase text-center gap-x-10 [grid-template-columns:1fr] md:[grid-template-columns:1fr_1fr_1fr]">
         <article class="md:flex-1 flex justify-center item-center text-xl py-10 md:py-12 lg:py-20 px-10 border-y-2 border-primary">
+            
             <h5 class="w-56 text-center">Ceremonia Religiosa</h5>
         </article>
         <article class="md:flex-1 flex justify-center item-center text-xl py-10 md:py-12 lg:py-20 px-10 border-y-2 border-primary">
@@ -20,3 +24,17 @@
         </article>
     </div>
 </section>
+<style>
+    svg{
+        view-timeline-name: --instagram;
+        view-timeline-axis: block;
+
+        animation-timeline: --instagram;
+        animation-name: show;
+    }
+    @keyframes {
+        to{
+            color: #833AB4, #FD1D1D, #FCB045;
+        }
+    }
+</style>

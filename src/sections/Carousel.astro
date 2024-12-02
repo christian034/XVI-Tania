@@ -1,0 +1,114 @@
+---
+const imagenes = [
+  { src: "./img/image1.jpg", title: "Imagen 1", subtitle: "Subtitle 1" },
+  { src: "/img/image2.jpg", title: "Imagen 2", subtitle: "Subtitle 2" },
+  { src: "/img/image3.jpg", title: "Imagen 3", subtitle: "Subtitle 3" },
+];
+---
+
+<div class="carousel">
+  <button id="prev" class="carousel-button prev" onclick="prevSlide()">&#10094;</button>
+  <div class="carousel-slides">
+    {imagenes.map((imagen, index) => (
+      <div class="carousel-item" aria-hidden={index === 0 ? "false" : "true"}>
+        <img src={imagen.src} alt={`Slide ${index + 1}`} />
+      </div>
+    ))}
+  </div>
+  <button id="next" class="carousel-button next" onclick="nextSlide()">&#10095;</button>
+</div>
+
+<script is:inline>
+  const slides = document.querySelectorAll(".carousel-item");
+  let currentIndex = 0;
+
+  function showSlide(index) {
+    slides.forEach((slide, i) => {
+      slide.setAttribute("aria-hidden", i !== index ? "true" : "false");
+    });
+    currentIndex = index;
+  }
+
+  function nextSlide() {
+    const newIndex = (currentIndex + 1) % slides.length;
+    showSlide(newIndex);
+  }
+
+  function prevSlide() {
+    const newIndex = (currentIndex - 1 + slides.length) % slides.length;
+    showSlide(newIndex);
+  }
+
+  // Initialize
+  showSlide(0);
+</script>
+
+<style>
+  .carousel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+    overflow: hidden;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+  }
+
+  .carousel-slides {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    width: 100%;
+  }
+
+  .carousel-item {
+    flex: 0 0 100%;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+  }
+
+  .carousel-item[aria-hidden="false"] {
+    opacity: 1;
+  }
+
+  .carousel img {
+    max-width: 100%;
+    border-radius: 10px;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+    margin-top: 1rem;
+  }
+
+  p {
+    color: #666;
+    font-size: 1rem;
+  }
+
+  .carousel-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    color: #333;
+    z-index: 10;
+  }
+
+  .carousel-button.prev {
+    left: 10px;
+  }
+
+  .carousel-button.next {
+    right: 10px;
+  }
+
+  .carousel-button:hover {
+    color: #000;
+  }
+</style>

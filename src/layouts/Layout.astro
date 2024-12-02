@@ -2,6 +2,7 @@
 // Supports weights 100-900
 import '@fontsource-variable/jost';
 import Noise from '@/components/Noise.astro'
+import SmokeBackground from '@/components/SmokeBackground.astro';
 interface Props{
 	title:string
 }
@@ -17,7 +18,8 @@ interface Props{
 		<title>XVI-Tania</title>
 	</head>
 	<body>
-		<Noise/>
+		<!--<Noise/>-->
+		<SmokeBackground />
 		<div class="max-w-6xl px-4 lg:px-10 pt-40 mx-auto">
 			<slot />
 		</div>

@@ -6,7 +6,8 @@ export default {
 		extend: {
 			colors:{
 				'primary': '#009975',
-				'secondary': '#ddd'
+				'secondary': '#ddd',
+				'instagram': '#833AB4'
 			}
 		},
 	},
