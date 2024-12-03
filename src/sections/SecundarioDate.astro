@@ -1,7 +1,26 @@
 <section class="animate-fade-in animate-delay-500 mt-32 mx-auto flex flex-col justify-center items-center text-center text-primary w-full">
     <h3 class="uppercase text-2xl font-medium flex flex-col max-w-sm mt-6">
         <span>Tambíen te esperamos en</span>
-        <span>El Salón Diamante</span>
+        <span>El Salón Diamante a las 20:00 GTM-5</span>
+        <script is:inline>
+            const END_DATE = 1734832800
+            const d = new Date(END_DATE)
+            const date = d.toLocaleTimeString("es",{
+                hour: "2-digit",
+                minute: "2-digit",
+            })
+            // get current timezone
+            const tzOffset = d.getTimezoneOffset() /60
+            const diff = tzOffset * -1
+            const gmt = diff > 0 ? `GMT-${diff}` : `GMT-${Math.abs(diff)}`
+
+            const TZ_DICTIONARY = {
+                "GMT-6": "GMT-5",
+            }
+            const tz = TZ_DICTIONARY[gmt] ?? gmt
+            const selfScript = document.currentScript
+            selfScript.parentNode.innerHTML = `${date}H ${tz}`
+        </script>
         <span>Av. Cuauhtémoc 185 Fracc. Magallanes</span>
         <span>Puente Bicentenario</span>
     </h3>
