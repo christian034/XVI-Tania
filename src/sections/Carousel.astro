@@ -1,31 +1,37 @@
 ---
-const imagenes = [
-  { src: "./img/image1.jpg", title: "Imagen 1", subtitle: "Subtitle 1" },
-  { src: "/img/image2.jpg", title: "Imagen 2", subtitle: "Subtitle 2" },
-  { src: "/img/image3.jpg", title: "Imagen 3", subtitle: "Subtitle 3" },
+const images = [
+  { src: "./img/image1.jpg"},
+  { src: "./img/image2.jpg"},
+  { src: "./img/image3.jpg"},
+  { src: "./img/image4.jpg"},
+  { src: "./img/image5.jpg"},
+  { src: "./img/image6.jpg"},
 ];
 ---
 
 <div class="carousel">
-  <button id="prev" class="carousel-button prev" onclick="prevSlide()">&#10094;</button>
+  <button id="prev" class="carousel-button prev">&#10094;</button>
   <div class="carousel-slides">
-    {imagenes.map((imagen, index) => (
-      <div class="carousel-item" aria-hidden={index === 0 ? "false" : "true"}>
-        <img src={imagen.src} alt={`Slide ${index + 1}`} />
+    {images.map((image, index) => (
+      <div
+        class={`carousel-item ${index === 0 ? "active" : ""}`}
+        data-index={index}
+      >
+        <img src={image.src} alt={`Slide ${index + 1}`} />
       </div>
     ))}
   </div>
-  <button id="next" class="carousel-button next" onclick="nextSlide()">&#10095;</button>
+  <button id="next" class="carousel-button next">&#10095;</button>
 </div>
 
 <script is:inline>
   const slides = document.querySelectorAll(".carousel-item");
   let currentIndex = 0;
+  const autoplayInterval = 3000; // Cambia cada 3 segundos
 
   function showSlide(index) {
-    slides.forEach((slide, i) => {
-      slide.setAttribute("aria-hidden", i !== index ? "true" : "false");
-    });
+    slides.forEach((slide) => slide.classList.remove("active"));
+    slides[index].classList.add("active");
     currentIndex = index;
   }
 
@@ -39,14 +45,37 @@ const imagenes = [
     showSlide(newIndex);
   }
 
-  // Initialize
+  document.querySelector("#next").addEventListener("click", () => {
+    clearInterval(autoplayTimer); // Pausa el autoplay si se hace clic en un botón
+    nextSlide();
+    startAutoplay();
+  });
+
+  document.querySelector("#prev").addEventListener("click", () => {
+    clearInterval(autoplayTimer); // Pausa el autoplay si se hace clic en un botón
+    prevSlide();
+    startAutoplay();
+  });
+
+  // Autoplay: Cambia automáticamente entre las imágenes
+  let autoplayTimer;
+  function startAutoplay() {
+    autoplayTimer = setInterval(nextSlide, autoplayInterval);
+  }
+
+  function stopAutoplay() {
+    clearInterval(autoplayTimer);
+  }
+
+  // Inicializa el carrusel
   showSlide(0);
+  startAutoplay();
 </script>
 
 <style>
   .carousel {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
     position: relative;
     max-width: 800px;
@@ -60,17 +89,23 @@ const imagenes = [
     display: flex;
     transition: transform 0.5s ease-in-out;
     width: 100%;
+    position: relative;
   }
 
   .carousel-item {
     flex: 0 0 100%;
-    text-align: center;
     opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
     transition: opacity 0.5s ease-in-out;
   }
 
-  .carousel-item[aria-hidden="false"] {
+  .carousel-item.active {
     opacity: 1;
+    position: relative;
   }
 
   .carousel img {
