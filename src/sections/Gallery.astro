@@ -9,88 +9,89 @@ const images = [
 ];
 ---
 
-<section class="gallery-container">
-  <div class="gallery-grid">
-    {images.map((image, index) => (
-      <div class="gallery-item">
-        <img
-          src={image}
-          alt={`Imagen ${index + 1}`}
-          class="gallery-image"
-          data-index={index}
-        />
-      </div>
-    ))}
-  </div>
-
-  <!-- Modal -->
-  <div id="image-modal" class="modal hidden">
-    <div class="modal-content">
-      <button class="prev-button">&larr;</button>
-      <img class="justify-center" id="modal-image" src="" alt="Imagen Modal" />
-      <button class="next-button">&rarr;</button>
-      <span class="close-button">&times;</span>
+<section class="gallery-container animate-fade-in animate-delay-500 mt-32 mx-auto flex flex-col justify-center items-center text-center text-primary w-full">
+    <span class="uppercase text-2xl font-medium flex flex-col max-w-sm mt-6">Galeria de fotos</span>
+    <div class="gallery-grid">
+        {images.map((image, index) => (
+            <div class="gallery-item">
+                <img
+                    src={image}
+                    alt={`Imagen ${index + 1}`}
+                    class="gallery-image"
+                    data-index={index}
+                />
+            </div>
+        ))}
     </div>
-  </div>
+    
+    <!-- Modal -->
+    <div id="image-modal" class="modal hidden">
+        <div class="modal-content">
+            <button class="prev-button">&larr;</button>
+            <img class="justify-center" id="modal-image" src="" alt="Imagen Modal" />
+            <button class="next-button">&rarr;</button>
+            <span class="close-button">&times;</span>
+        </div>
+    </div>
 </section>
 
 <script is:inline>
-  document.addEventListener('DOMContentLoaded', () => {
-    const modal = document.getElementById('image-modal');
-    const modalImage = document.getElementById('modal-image');
-    const closeButton = modal.querySelector('.close-button');
-    const prevButton = modal.querySelector('.prev-button');
-    const nextButton = modal.querySelector('.next-button');
-    const images = Array.from(document.querySelectorAll('.gallery-image'));
-    let currentIndex = 0;
+    document.addEventListener('DOMContentLoaded', () => {
+        const modal = document.getElementById('image-modal');
+        const modalImage = document.getElementById('modal-image');
+        const closeButton = modal.querySelector('.close-button');
+        const prevButton = modal.querySelector('.prev-button');
+        const nextButton = modal.querySelector('.next-button');
+        const images = Array.from(document.querySelectorAll('.gallery-image'));
+        let currentIndex = 0;
+        
+        // Abre el modal al hacer clic en una imagen
+        images.forEach((image, index) => {
+            image.addEventListener('click', () => {
+                currentIndex = index; // Establece la imagen actual
+                updateModalImage();
+                modal.classList.remove('hidden'); // Muestra el modal
+                setTimeout(() => modal.classList.add('show'), 10); // Activa la transición
+            });
+        });
 
-    // Abre el modal al hacer clic en una imagen
-    images.forEach((image, index) => {
-      image.addEventListener('click', () => {
-        currentIndex = index; // Establece la imagen actual
-        updateModalImage();
-        modal.classList.remove('hidden'); // Muestra el modal
-        setTimeout(() => modal.classList.add('show'), 10); // Activa la transición
-      });
+        // Actualiza la imagen del modal
+        function updateModalImage() {
+            modalImage.src = images[currentIndex].src;
+        }
+
+        // Cierra el modal
+        closeButton.addEventListener('click', () => {
+            modal.classList.remove('show'); // Elimina la transición
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modalImage.src = ''; // Limpia la imagen del modal
+            }, 300); // Espera el tiempo de la transición
+        });
+
+        // Navega a la imagen anterior
+        prevButton.addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + images.length) % images.length;
+            updateModalImage();
+        });
+
+        // Navega a la imagen siguiente
+        nextButton.addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % images.length;
+            updateModalImage();
+        });
+
+        // Cierra el modal al hacer clic fuera de la imagen
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.remove('show');
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                    modalImage.src = '';
+                }, 300);
+            }
+        });
     });
-
-    // Actualiza la imagen del modal
-    function updateModalImage() {
-      modalImage.src = images[currentIndex].src;
-    }
-
-    // Cierra el modal
-    closeButton.addEventListener('click', () => {
-      modal.classList.remove('show'); // Elimina la transición
-      setTimeout(() => {
-        modal.classList.add('hidden');
-        modalImage.src = ''; // Limpia la imagen del modal
-      }, 300); // Espera el tiempo de la transición
-    });
-
-    // Navega a la imagen anterior
-    prevButton.addEventListener('click', () => {
-      currentIndex = (currentIndex - 1 + images.length) % images.length;
-      updateModalImage();
-    });
-
-    // Navega a la imagen siguiente
-    nextButton.addEventListener('click', () => {
-      currentIndex = (currentIndex + 1) % images.length;
-      updateModalImage();
-    });
-
-    // Cierra el modal al hacer clic fuera de la imagen
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) {
-        modal.classList.remove('show');
-        setTimeout(() => {
-          modal.classList.add('hidden');
-          modalImage.src = '';
-        }, 300);
-      }
-    });
-  });
 </script>
 
 
@@ -150,46 +151,44 @@ const images = [
     .modal.hidden {
         display: none;
     }
-.modal-content {
-  position: relative;
-  max-width: 60%; /* Ajusta el ancho del modal */
-  max-height: 80%; /* Ajusta la altura del modal */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: white; /* Fondo blanco */
-  border-radius: 8px; /* Bordes redondeados */
-  padding: 1rem; /* Espaciado interno */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra del modal */
-  overflow: hidden; /* Evita que el contenido se desborde */
-}
 
-/* Ajustes para computadoras grandes */
-@media screen and (min-width: 1025px) {
-  .modal-content {
-    max-width: 40%; /* Más compacto en computadoras */
-    max-height: 60%;
-  }
-}
+    .modal-content {
+        position: relative;
+        max-width: 60%; /* Ajusta el ancho del modal */
+        max-height: 80%; /* Ajusta la altura del modal */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: white; /* Fondo blanco */
+        border-radius: 8px; /* Bordes redondeados */
+        padding: 1rem; /* Espaciado interno */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra del modal */
+        overflow: hidden; /* Evita que el contenido se desborde */
+    }
 
-/* Ajustes para tabletas */
-@media screen and (min-width: 769px) and (max-width: 1024px) {
-  .modal-content {
-    max-width: 60%; /* Más ancho en tabletas */
-    max-height: 80%;
-  }
-}
+    /* Ajustes para computadoras grandes */
+    @media screen and (min-width: 1025px) {
+        .modal-content {
+            max-width: 40%; /* Más compacto en computadoras */
+            max-height: 60%;
+        }
+    }
 
-/* Ajustes para teléfonos */
-@media screen and (max-width: 768px) {
-  .modal-content {
-    max-width: 90%; /* Ocupa casi todo el ancho */
-    max-height: 90%;
-  }
-}
+    /* Ajustes para tabletas */
+    @media screen and (min-width: 769px) and (max-width: 1024px) {
+        .modal-content {
+            max-width: 60%; /* Más ancho en tabletas */
+            max-height: 80%;
+        }
+    }
 
-
-
+    /* Ajustes para teléfonos */
+    @media screen and (max-width: 768px) {
+        .modal-content {
+            max-width: 90%; /* Ocupa casi todo el ancho */
+            max-height: 90%;
+        }
+    }
 
     .modal-content img {
         width: auto;
@@ -218,37 +217,37 @@ const images = [
     }
 
     /* Botones de navegación */
-.prev-button,
-.next-button {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 2rem;
-  color: white;
-  background: rgba(0, 0, 0, 0.5);
-  border: none;
-  border-radius: 50%;
-  cursor: pointer;
-  width: 50px;
-  height: 50px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: background 0.3s ease, transform 0.3s ease;
-}
+    .prev-button,
+    .next-button {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 2rem;
+        color: white;
+        background: rgba(0, 0, 0, 0.5);
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: background 0.3s ease, transform 0.3s ease;
+    }
 
-.prev-button:hover,
-.next-button:hover {
-  background: rgba(255, 255, 255, 0.8);
-  color: black;
-  transform: scale(1.1);
-}
+    .prev-button:hover,
+    .next-button:hover {
+        background: rgba(255, 255, 255, 0.8);
+        color: black;
+        transform: scale(1.1);
+    }
 
-.prev-button {
-  left: 10px;
-}
+    .prev-button {
+        left: 10px;
+    }
 
-.next-button {
-  right: 10px;
-}
+    .next-button {
+        right: 10px;
+    }
 </style>
